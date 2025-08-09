@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./NewsApp.css";
-/*const API_KEY = "2ed750521f7b42fd856727e05e751381";*/
-const API_KEY = "d432cff58cdf43f6b8d844a1e5f18077";
-const BASE_URL = "https://newsapi.org/v2/everything?q=";
+
+// Use an environment variable for the backend URL
+// The fallback is for local development if you test outside of Kubernetes
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000/api/news";
 
 function NewsApp() {
   const [articles, setArticles] = useState([]);
@@ -16,7 +17,7 @@ function NewsApp() {
 
   async function fetchNews(searchQuery) {
     try {
-      const res = await fetch(`${BASE_URL}${searchQuery}&apiKey=${API_KEY}`);
+      const res = await fetch(`${BACKEND_URL}?q=${searchQuery}`);
       if (!res.ok) {
         console.error("Error fetching news:", res.status, res.statusText);
         setArticles([]);
