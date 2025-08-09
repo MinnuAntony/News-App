@@ -1,10 +1,12 @@
 #!/bin/sh
 set -e
 
-# Wait for MySQL
-until nc -z "$DB_HOST" 3306; do
-  echo "Waiting for MySQL at $DB_HOST:3306..."
-  sleep 1
-done
-
-exec python app.py
+# Wait for DB host to be available (simple loop)
+if [ -n "$DB_HOST" ]; then
+  echo "Waiting for DB host: $DB_HOST..."
+  until nc -z "$DB_HOST" 3306 >/dev/null 2>&1; do
+    printf '.'
+    sleep 1
+  done
+  echo "\nDB is available"
+fi

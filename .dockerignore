@@ -1,0 +1,12 @@
+.git
+node_modules
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.env
+.env.*
+.DS_Store
+npm-debug.log
+build
+dist

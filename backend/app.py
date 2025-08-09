@@ -1,5 +1,6 @@
 import os
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from dotenv import load_dotenv
 from models import db, Article
 from news_client import fetch_top_headlines
@@ -11,6 +12,8 @@ load_dotenv()
 
 def create_app():
     app = Flask(__name__)
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
+
 
     # Database configuration
     DB_USER = os.getenv("DB_USER", "root")
